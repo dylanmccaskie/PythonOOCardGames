@@ -1,4 +1,6 @@
 import unittest
+import sys
+import io
 from ginrummy import *
 
 class ginrummytest(unittest.TestCase):
@@ -17,8 +19,22 @@ class ginrummytest(unittest.TestCase):
         for hand in hands:
             self.assertEqual(7, len(hand))
 
-    def test_input(self):
-        self.assertEqual(2, self.gin_rummy.getplayers())
+    def testOutputHand(self, deck=gin_rummy.makedeck()):
+        hand = self.gin_rummy.gethands(deck, 2)[0]
+        expected_output = ' '.join(hand)
+        print("OUTPUT: ", expected_output)
+        redirected_output = io.StringIO()
+        
+        # Redirect console output 
+        sys.stdout = redirected_output
+
+        # Call function and check that value matches expected value
+        self.gin_rummy.output_hand(hand)
+        self.assertEqual(redirected_output.getvalue().strip(), expected_output)
+        
+        # Reset redirect
+        sys.stdout = sys.__stdout__
+        print("passed")
 
 if __name__ == "__main__":
     unittest.main()

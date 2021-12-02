@@ -23,6 +23,8 @@ class ginrummy:
             
         return players
 
+    def output_hand(self, hand):
+        print(*hand, sep = ' ')
 
     def main(self):
         self.num_players = self.getplayers()
